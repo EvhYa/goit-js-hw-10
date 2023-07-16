@@ -10,7 +10,9 @@ const loadText = document.querySelector('.loader');
 const catContainer = document.querySelector('.cat-info');
 const selectWrapper = document.querySelector('.select-wrapper');
 
-loadText.hidden = true;
+// breedSelector.hidden = true;
+loadText.hidden = false;
+selectWrapper.hidden = true;
 
 axios.defaults.headers.common['x-api-key'] =
   'live_1qt2MrwyWIWTORnnMd2g3Wy8voWAab8a75xO2dqYFn65VBYApYvfXTR32ClMClzv';
@@ -27,6 +29,8 @@ fetchBreeds()
     new SlimSelect({
       select: breedSelector,
     });
+    loadText.hidden = true;
+    selectWrapper.hidden = false;
   });
 
 function createSelectors(arr) {
@@ -42,12 +46,9 @@ function onSelect(evt) {
   //   let catName = evt.currentTarget.selectedOptions[0].textContent;
   loadText.hidden = false;
   catContainer.innerHTML = '';
-  selectWrapper.hidden = true;
-  // console.log(breedSelector);
   fetchCatByBreed(evt.target.value)
     .then(resp => {
       loadText.hidden = true;
-      selectWrapper.hidden = false;
       return resp.data.find(({ id }) => id === evt.target.value);
     })
     .then(
@@ -69,18 +70,3 @@ function createCatCard(url, catName, description) {
     <div><h2>${catName}</h2>
   <p>${description}</p></div>`;
 }
-
-// // console.dir(breedSelector.nextElementSibling);
-// function showSs(booleen) {
-//   let select;
-//   if (booleen) {
-//     select = new SlimSelect({
-//       select: breedSelector,
-//     });
-//   }
-//   if (!booleen) {
-//     select.destroy()
-//   }
-// }
-
-console.dir(breedSelector);
